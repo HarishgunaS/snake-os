@@ -1,34 +1,34 @@
-mov ah, 0x0e
+[org 0x7c00]
+    mov bp, 0x8000
+    mov sp, bp
 
-mov bp, 0x8000
-mov sp, bp
+    mov bx, 0x9000    
+    mov dh, 3
 
-push 'A'
-push 'B'
-push 'C'
+    call disk_load
 
-mov al, [0x7ffe]
-int 0x10
+    mov dx, [0x9000]
+    call print_hex
+    call print_nl
+    
+    mov dx, [0x9000 + 512]
+    call print_hex
+    call print_nl
+    
+    mov dx, [0x9000 + 512 + 512]
+    call print_hex
 
-mov al, [0x8000]
-int 0x10
 
-pop bx
-mov al, bl
-int 0x10
+    
+    jmp $
 
-pop bx
-mov al, bl
-int 0x10
-
-pop bx
-mov al, bl
-int 0x10
-
-mov al, [0x8000]
-int 0x10
-
-jmp $
+%include "print.asm"
+%include "print_hex.asm"
+%include "disk.asm"
 
 times 510 - ($-$$) db 0
 dw 0xaa55
+
+times 256 dw 0xdada
+times 256 dw 0xface
+times 256 dw 0xdada

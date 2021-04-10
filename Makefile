@@ -1,7 +1,7 @@
-C_SOURCES = $(wildcard kernel/*.c drivers/*.c)
-HEADERS = $(wildcard kernel/*.c drivers/*.c)
+C_SOURCES = $(wildcard kernel/*.c drivers/*.c cpu/*.c)
+HEADERS = $(wildcard kernel/*.h drivers/*.h cpu/*.h)
 
-OBJ = ${C_SOURCES:.c=.o}
+OBJ = ${C_SOURCES:.c=.o cpu/interrupt.o}
 
 CC = /usr/local/i386elfgcc/bin/i386-elf-gcc
 GDB = gdb
@@ -22,10 +22,10 @@ run: os-image.bin
 	qemu-system-x86_64 -fda os-image.bin
 
 debug: os-image.bin kernel.elf
-	qemu-system-x86_64 -s -fda os-image.bin
+	qemu-system-x86_64 -s -fda os-image.bin -d guest_errors,int
 
 debug_vnc: os-image.bin kernel.elf
-	qemu-system-x86_64 -s -fda os-image.bin -vnc :0
+	qemu-system-x86_64 -s -fda os-image.bin -vnc :0 -d guest_errors,int
 
 debug_gdb:
 	${GDB} -ex "target remote localhost:1234" -ex "symbol-file kernel.elf"
@@ -41,5 +41,4 @@ debug_gdb:
 
 clean:
 	rm -rf *.bin *.o *.dis os-image.bin *.elf
-	rm -rf kernel/*.o boot/*.bin drivers/*.o boot/*.o
-
+	rm -rf kernel/*.o boot/*.bin drivers/*.o boot/*.o cpu/*.o

@@ -1,5 +1,6 @@
 #include "screen.h"
 #include "ports.h"
+#include "../kernel/util.h"
 
 int print_char(char c, int col, int row, char attr);
 int get_offset(int col, int row);
@@ -61,14 +62,21 @@ int print_char(char c, int col, int row, char attr)
 {
     unsigned char *vidmem = (unsigned char*) VIDEO_ADDRESS;
     if (!attr) attr = WHITE_ON_BLACK;
+    int offset;
+
     if (col >= MAX_COLS || row >= MAX_ROWS)
     {
-        vidmem[2*(MAX_COLS)*(MAX_ROWS)-2] = 'E';
-        vidmem[2*(MAX_COLS)*(MAX_ROWS)-1] = RED_ON_WHITE;
-        return get_offset(col, row);
+        // vidmem[2*(MAX_COLS)*(MAX_ROWS)-2] = 'E';
+        // vidmem[2*(MAX_COLS)*(MAX_ROWS)-1] = RED_ON_WHITE;
+        // return get_offset(col, row);
+        memory_copy(vidmem + MAX_COLS * 2, vidmem, 2 * MAX_COLS * MAX_ROWS);
+        offset = get_offset(0, MAX_ROWS-1);
+        set_cursor_offset(offset);
+        col = 0; 
+        row = MAX_ROWS - 1;
     }
 
-    int offset;
+    
     if (col >= 0 && row >= 0) offset = get_offset(col, row);
     else offset = get_cursor_offset();
 
@@ -82,6 +90,10 @@ int print_char(char c, int col, int row, char attr)
         vidmem[offset] = c;
         vidmem[offset + 1] = attr;
         offset += 2;
+    }
+    if (offset >= 2 * MAX_COLS * MAX_ROWS)
+    {
+        memory_copy(vidmem + MAX_COLS * 2, vidmem, 2 * MAX_COLS * MAX_ROWS);
     }
     set_cursor_offset(offset);
 

@@ -1,4 +1,4 @@
-#include "ports.h"
+#include "../cpu/ports.h"
 
 void my_print(char* string, int length)
 {

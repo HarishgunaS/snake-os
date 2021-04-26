@@ -1,6 +1,6 @@
 #include "screen.h"
-#include "ports.h"
-#include "../kernel/util.h"
+#include "../cpu/ports.h"
+#include "../libc/mem.h"
 
 int print_char(char c, int col, int row, char attr);
 int get_offset(int col, int row);
@@ -85,6 +85,11 @@ int print_char(char c, int col, int row, char attr)
         row = get_offset_row(offset);
         offset = get_offset(0, row + 1);
     }
+    else if (c == 0x08)
+    {
+        vidmem[offset] = c;
+        vidmem[offset + 1] = attr;
+    }
     else
     {
         vidmem[offset] = c;
@@ -127,4 +132,12 @@ void kprint_at(char* message, int col, int row)
 void kprint(char* message)
 {
     kprint_at(message, -1, -1);
+}
+
+void kprint_backspace()
+{
+    int offset = get_cursor_offset() - 2;
+    int row = get_offset_row(offset);
+    int col = get_offset_col(offset);
+    print_char(0x08, col, row, WHITE_ON_BLACK);
 }

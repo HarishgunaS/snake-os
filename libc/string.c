@@ -24,6 +24,34 @@ void int_to_ascii(int i, char str[])
 
 }
 
+void hex_to_ascii(int i, char str[])
+{
+    char digits[17] = "0123456789ABCDEF";
+    int n = 0;
+    int nexti, x;
+    while (i > 0)
+    {
+        nexti = i / 16;
+        x = i - (nexti * 16);
+        i = nexti;
+
+        str[n] = digits[x];
+        n += 1;
+    }
+
+    char temp;
+    int j = n-1;
+    while (j >= n / 2)
+    {
+        temp = str[j];
+        str[j] = str[n - j - 1];
+        str[n - j - 1] = temp;
+        j -= 1;
+    }
+    str[n] = 0;
+
+}
+
 int strlen(char s[])
 {
     int i = 0;

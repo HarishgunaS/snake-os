@@ -17,14 +17,14 @@ int 0x13
 
 mov dl, [DRIVE_NUMBER]
 mov ah, 0x02
-mov al, 15; total sector count
+mov al, 1; total sector count
 mov ch, 0x00; cylinder & 0xff, cylinder = 0
 mov cl, 0x02; sector | ((cylinder >> 2) & 0xC0), cylinder = 0, sector = 2
 mov dh, 0x00; head = 0
 mov bx, BOOT1; put returned value at BOOT1
 int 0x13
 
-; call BOOT1
+call BOOT1
 
 ;add error checks!!!!!!!!!1
 

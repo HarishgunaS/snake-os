@@ -7,11 +7,9 @@
 #define MAX_Y 200 //exclusive
 
 #include "screen.h"
-#include "interrupts.h"
 
 int kernel_main()
 {
-
     square(10, 10, 5, RED);
     
     return 0;

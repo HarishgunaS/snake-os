@@ -6,16 +6,16 @@ OBJS = ${C_SOURCES:.c=.o}
 	nasm $< -f bin -o $@
 
 %.o: %.asm
-	nasm $< -f elf64 -o $@
+	nasm $< -f elf -o $@
 
-%.o: %.c
-	gcc -ffreestanding -c $< -o $@
+kernel/kernel.o: ${C_SOURCES}
+	gcc -fno-pie -m32 -ffreestanding $^ -o $@
 
 bootloader.bin: boot/boot0.bin boot/boot1.bin
 	cat $^ > bootloader.bin
 
-kernel/kernel.bin: boot/load_kernel.o ${OBJS}
-	ld -o $@ -Ttext 0x2000 $^ --oformat binary
+kernel/kernel.bin: boot/load_kernel.o kernel/kernel.o kernel/irq_asm_helpers.o
+	ld -m elf_i386 -o $@ -Ttext 0x2000 $^ --oformat binary
 
 image.bin: bootloader.bin kernel/kernel.bin
 	cat $^ > image.bin

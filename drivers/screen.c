@@ -22,7 +22,7 @@ void plot(int x, int y, unsigned char color)
     pixel[offset] = color;
 }
 
-void clear(unsigned char color)
+void clear_screen(unsigned char color)
 {
     int i, j;
     for (i = MIN_X; i < MAX_X; i++)

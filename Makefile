@@ -1,6 +1,6 @@
-C_SOURCES = $(wildcard kernel/*.c interrupts/*.c drivers/*.c)
-HEADERS = $(wildcard kernel/*.h interrupts/*.h drivers/*.h)
-OBJS = ${C_SOURCES:.c=.o}
+C_SOURCES = $(wildcard kernel/*.c drivers/*.c interrupts/*.c)
+HEADERS = $(wildcard kernel/*.h drivers/*.h interrupts/*.h)
+OBJS = ${C_SOURCES:.c=.o interrupts/interrupt_helper.o}
 
 CC = /usr/local/i386elfgcc/bin/i386-elf-gcc
 LD = /usr/local/i386elfgcc/bin/i386-elf-ld
@@ -38,8 +38,11 @@ run_vnc: image.bin
 run: image.bin
 	${QEMU} -s -fda $<
 
+debug_vnc: image.bin kernel/kernel.elf
+	${QEMU} -s -S -fda image.bin -vnc :0 &
+	gdb -ex "target remote localhost:1234" -ex "symbol-file kernel/kernel.elf"
+
 debug: image.bin kernel/kernel.elf
-	${QEMU} -s -fda image.bin &
 	gdb -ex "target remote localhost:1234" -ex "symbol-file kernel/kernel.elf"
 clean:
 	rm -rf *.bin *.o

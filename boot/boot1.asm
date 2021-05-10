@@ -22,7 +22,7 @@ mov al, 30; total sector count
 mov ch, 0x00; cylinder & 0xff, cylinder = 0
 mov cl, 0x03; sector | ((cylinder >> 2) & 0xC0), cylinder = 0, sector = 2
 mov dh, 0x00; head = 0
-mov bx, KERNEL_ENTRY; put returned value at BOOT1
+mov bx, KERNEL_ENTRY; put returned value at KERNEL_ENTRY
 int 0x13
 
 mov ah, 0x24; enabling a20 gate
@@ -51,6 +51,8 @@ mov gs, ax
 
 mov ebp, 0x90000
 mov esp, ebp
+
+cli
 
 call CODE_SEG:KERNEL_ENTRY
 

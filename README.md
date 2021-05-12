@@ -10,8 +10,13 @@ Inspired by https://github.com/jdah/tetris-os
 * Cross compilation: GCC and binutils for i386-elf (gdb, gcc, ld, objcopy)
 ### Instructions:
 ```bash
-git clone 
+git clone https://github.com/HarishgunaS/snake-os.git
 ```
+Replace the paths found in the Makefile with the correct paths for the installed tools listed above.
+```bash
+make run
+```
+
 
 
 

@@ -36,7 +36,7 @@ run_vnc: image.bin
 	${QEMU} -s -fda $< -vnc :0
 
 run: image.bin
-	${QEMU} -s -fda $<
+	${QEMU} -s -S -fda $<
 
 debug_vnc: image.bin kernel/kernel.elf
 	${QEMU} -s -S -fda image.bin -vnc :0 &
@@ -46,4 +46,4 @@ debug: image.bin kernel/kernel.elf
 	gdb -ex "target remote localhost:1234" -ex "symbol-file kernel/kernel.elf"
 clean:
 	rm -rf *.bin *.o
-	rm -rf kernel/*.o boot/*.bin boot/*.o drivers/*.o interrupts/*.o kernel/*.bin kernel/*.elf
+	rm -rf kernel/*.o boot/*.bin boot/*.o drivers/*.o interrupts/*.o snake/*.o kernel/*.bin kernel/*.elf

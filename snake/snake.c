@@ -7,3 +7,8 @@ struct Snake* add_block(struct Snake* t)
     temp->next = t;
     return temp;
 }
+void init_snake()
+{
+    x_velocity = 10;
+    y_velocity = 0;
+}

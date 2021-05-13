@@ -12,9 +12,9 @@ int appleY;
 struct Snake* add_block(struct Snake* t);
 struct Snake* head;
 struct Snake* tail;
-int x_velocity = 10;
-int y_velocity = 0;
-
+int x_velocity;
+int y_velocity;
+void init_snake();
 // void init_snake(int x, int y, int s);
 
 // int size;

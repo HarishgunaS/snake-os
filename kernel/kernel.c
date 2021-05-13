@@ -87,6 +87,7 @@ int kernel_main()
     init_keyboard();
     initialize_idt();
     init_heap();
+    init_snake();
 
     struct Snake* start = malloc(sizeof(struct Snake));
     start->x = 100;

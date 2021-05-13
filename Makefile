@@ -1,5 +1,5 @@
-C_SOURCES = $(wildcard kernel/*.c drivers/*.c interrupts/*.c)
-HEADERS = $(wildcard kernel/*.h drivers/*.h interrupts/*.h)
+C_SOURCES = $(wildcard kernel/*.c drivers/*.c interrupts/*.c snake/*.c)
+HEADERS = $(wildcard kernel/*.h drivers/*.h interrupts/*.h snake/*.h)
 OBJS = ${C_SOURCES:.c=.o interrupts/interrupt_helper.o}
 
 CC = /usr/local/i386elfgcc/bin/i386-elf-gcc

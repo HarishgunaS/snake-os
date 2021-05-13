@@ -22,6 +22,18 @@ void plot(int x, int y, unsigned char color)
     pixel[offset] = color;
 }
 
+unsigned char get_color(int x, int y)
+{
+    if (x >= MAX_X || y >= MAX_Y || x < MIN_X || y < MIN_Y)
+    {
+        return GREEN; //throw error?
+    }
+    unsigned short offset;
+    offset = 320*y + x;    
+    unsigned char *pixel = (unsigned char*)0xA0000;
+    return pixel[offset];
+}
+
 void clear_screen(unsigned char color)
 {
     int i, j;

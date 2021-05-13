@@ -12,4 +12,5 @@
 void plot(int x, int y, unsigned char color);
 void square(int x, int y, int size, unsigned char color);
 void clear_screen(unsigned char color);
+unsigned char get_color(int x, int y);
 #endif

@@ -36,7 +36,7 @@ run_vnc: image.bin
 	${QEMU} -s -fda $< -vnc :0
 
 run: image.bin
-	${QEMU} -s -S -fda $<
+	${QEMU} -s -fda $<
 
 debug_vnc: image.bin kernel/kernel.elf
 	${QEMU} -s -S -fda image.bin -vnc :0 &

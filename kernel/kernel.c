@@ -4,12 +4,9 @@
 #include "../drivers/timer.h"
 #include "../snake/snake.h"
 #include "../kernel/mem.h"
-#define SQUARE_SIZE 10
+#include "../kernel/random.h"
 
-int new_blocks = 10;
-
-int dead = 0;
-
+#define BACKGROUND BLACK
 
 void update_render()
 {
@@ -57,13 +54,13 @@ void update_render()
     }
 
     struct Snake* current = tail;
-    if (new_blocks > 0)
+    if (appleX == head->x + x_velocity && appleY == head->y + y_velocity)
     {
         tail = add_block(tail);
-        new_blocks--;
+        add_apple(randint(MIN_X/SQUARE_SIZE + 10, MAX_X/SQUARE_SIZE - 10)*SQUARE_SIZE, randint(MIN_Y/SQUARE_SIZE, MAX_Y/SQUARE_SIZE)*SQUARE_SIZE);
     }
-    
-    square(tail->x, tail->y, SQUARE_SIZE, BLACK);
+    square(appleX+1, appleY+1, SQUARE_SIZE-2, RED);
+    square(tail->x, tail->y, SQUARE_SIZE, BACKGROUND);
     while (current->next != 0)
     {
         current->x = current->next->x;
@@ -78,6 +75,8 @@ void update_render()
         dead = 1;
     }
     square(current->x+1, current->y+1, SQUARE_SIZE-2, GREEN);
+
+    
     
 }
 
@@ -88,15 +87,16 @@ int kernel_main()
     initialize_idt();
     init_heap();
     init_snake();
-
+    //new_blocks = rand();
+    srand(get_ticks());
     struct Snake* start = malloc(sizeof(struct Snake));
-    start->x = 100;
-    start->y = 100;
+    start->x = randint(MIN_X/SQUARE_SIZE + 10, MAX_X/SQUARE_SIZE - 10)*SQUARE_SIZE;
+    start->y = randint(MIN_Y/SQUARE_SIZE + 10, MAX_Y/SQUARE_SIZE - 10)*SQUARE_SIZE;
     start->next = 0;
-        
+    add_apple(randint(MIN_X/SQUARE_SIZE + 10, MAX_X/SQUARE_SIZE - 10)*SQUARE_SIZE, randint(MIN_Y/SQUARE_SIZE + 10, MAX_Y/SQUARE_SIZE - 10)*SQUARE_SIZE);
     head = start;
     tail = start;
-
+    clear_screen(BACKGROUND);
     add_function((unsigned long)update_render, 2);
 
     for(;;)

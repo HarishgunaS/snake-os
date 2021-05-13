@@ -32,8 +32,11 @@ make run
     * Keyboard driver (returns last keyboard input)
     * Timer driver (returns ticks since kernel launch, can sleep for given ticks)
     * Screen driver (drawing mode set using BIOS interrupts during boot, can draw pixels and squares at given coordinates using VGA memory)
+* Memory management
+    * Very basic heap using the first 0x2000 bytes of memory
 * Snake gameplay
     * Basic moving square on screen controlled by WASD
+    * Snake dies when it touches itself or the edge of the screen
 
 
 ## Resources:

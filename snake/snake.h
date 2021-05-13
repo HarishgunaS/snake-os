@@ -1,6 +1,8 @@
 #ifndef SNAKE_H
 #define SNAKE_H
 #include "../kernel/mem.h"
+#define SQUARE_SIZE 10
+
 struct Snake
 {
     int x;
@@ -15,6 +17,8 @@ struct Snake* tail;
 int x_velocity;
 int y_velocity;
 void init_snake();
+void add_apple();
+int dead;
 // void init_snake(int x, int y, int s);
 
 // int size;

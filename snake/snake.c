@@ -11,4 +11,11 @@ void init_snake()
 {
     x_velocity = 10;
     y_velocity = 0;
+    dead = 0;
+}
+
+void add_apple(int x, int y)
+{
+    appleX = x;
+    appleY = y;
 }

@@ -1,6 +1,9 @@
 #ifndef SNAKE_H
 #define SNAKE_H
 #include "../kernel/mem.h"
+#include "../kernel/random.h"
+#include "../drivers/timer.h"
+#include "../drivers/screen.h"
 #define SQUARE_SIZE 10
 
 struct Snake

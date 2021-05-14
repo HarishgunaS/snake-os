@@ -6,12 +6,30 @@
 #include "../kernel/mem.h"
 #include "../kernel/random.h"
 
-#define BACKGROUND BLACK
+
 
 void update_render()
 {
     if (dead)
+    {
+        unsigned char input = get_key();
+        if (input == 0x39)
+        {
+            // free the memory!
+            // struct Snake* current = tail;
+            // while (current->next != 0)
+            // {
+            //     struct Snake* temp = current;
+            //     current = current->next;
+
+            // }
+            init_snake();
+            
+
+        }
         return;
+    }
+        
     unsigned char input = get_key();
     // square(x, y, SQUARE_SIZE, BLACK);
     if (input == 0x1e)
@@ -60,7 +78,7 @@ void update_render()
         add_apple(randint(MIN_X/SQUARE_SIZE + 10, MAX_X/SQUARE_SIZE - 10)*SQUARE_SIZE, randint(MIN_Y/SQUARE_SIZE, MAX_Y/SQUARE_SIZE)*SQUARE_SIZE);
     }
     square(appleX+1, appleY+1, SQUARE_SIZE-2, RED);
-    square(tail->x, tail->y, SQUARE_SIZE, BACKGROUND);
+    square(tail->x-1, tail->y-1, SQUARE_SIZE+2, BACKGROUND);
     while (current->next != 0)
     {
         current->x = current->next->x;
@@ -76,6 +94,30 @@ void update_render()
     }
     square(current->x+1, current->y+1, SQUARE_SIZE-2, GREEN);
 
+    if (x_velocity > 0)
+    {
+        plot(current->x + 2*SQUARE_SIZE/3, current->y + SQUARE_SIZE/3, BLACK);
+        plot(current->x + 2*SQUARE_SIZE/3, current->y + 2*SQUARE_SIZE/3, BLACK);
+        // plot(current->x + SQUARE_SIZE, current->y + SQUARE_SIZE/2, LIGHT_RED);
+    }
+    else if (x_velocity < 0)
+    {
+        plot(current->x + SQUARE_SIZE/3, current->y + SQUARE_SIZE/3, BLACK);
+        plot(current->x + SQUARE_SIZE/3, current->y + 2*SQUARE_SIZE/3, BLACK);
+        // plot(current->x, current->y + SQUARE_SIZE/2, LIGHT_RED);
+    }
+    else if(y_velocity > 0)
+    {
+        plot(current->x + SQUARE_SIZE/3, current->y + 2*SQUARE_SIZE/3, BLACK);
+        plot(current->x + 2*SQUARE_SIZE/3, current->y + 2*SQUARE_SIZE/3, BLACK);
+        // plot(current->x + SQUARE_SIZE/2, current->y + SQUARE_SIZE, LIGHT_RED);
+    }
+    else if (y_velocity < 0)
+    {
+        plot(current->x + SQUARE_SIZE/3, current->y + SQUARE_SIZE/3, BLACK);
+        plot(current->x + 2*SQUARE_SIZE/3, current->y + SQUARE_SIZE/3, BLACK);
+        // plot(current->x + SQUARE_SIZE/2, current->y, LIGHT_RED);
+    }
     
     
 }
@@ -88,15 +130,8 @@ int kernel_main()
     init_heap();
     init_snake();
     //new_blocks = rand();
-    srand(get_ticks());
-    struct Snake* start = malloc(sizeof(struct Snake));
-    start->x = randint(MIN_X/SQUARE_SIZE + 10, MAX_X/SQUARE_SIZE - 10)*SQUARE_SIZE;
-    start->y = randint(MIN_Y/SQUARE_SIZE + 10, MAX_Y/SQUARE_SIZE - 10)*SQUARE_SIZE;
-    start->next = 0;
-    add_apple(randint(MIN_X/SQUARE_SIZE + 10, MAX_X/SQUARE_SIZE - 10)*SQUARE_SIZE, randint(MIN_Y/SQUARE_SIZE + 10, MAX_Y/SQUARE_SIZE - 10)*SQUARE_SIZE);
-    head = start;
-    tail = start;
-    clear_screen(BACKGROUND);
+
+    
     add_function((unsigned long)update_render, 2);
 
     for(;;)

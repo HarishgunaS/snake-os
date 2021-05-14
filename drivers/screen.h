@@ -5,6 +5,9 @@
 #define RED 0x04
 #define BLACK 0x00
 #define GREY 0x07
+
+#define BACKGROUND BLACK
+
 #define MIN_X 1
 #define MAX_X 321 //exclusive
 #define MIN_Y 0

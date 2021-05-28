@@ -3,6 +3,10 @@ A baremetal x86 "operating system" that only runs the popular game Snake.
 
 Inspired by https://github.com/jdah/tetris-os
 
+
+![Demo of Snake OS](snake.gif)
+
+
 ## Running/Testing:
 ### Requirements:
 * qemu-system-i386
